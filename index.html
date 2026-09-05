@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WINSTON STORE</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f6f8fb;color:#111827}
+header{background:#070b12;color:white;padding:14px 18px;position:sticky;top:0;z-index:3}
+.brand{font-weight:900;font-size:20px}.brand span{color:#55e6b0}.langs{display:flex;gap:6px;margin-top:12px}
+.lang{border:1px solid #344154;background:transparent;color:#fff;border-radius:9px;padding:7px 10px}.lang.active{background:#55e6b0;color:#071018}
+main{padding:22px 16px;max-width:900px;margin:auto}.hero{background:#070b12;color:#fff;border-radius:22px;padding:25px;margin-bottom:22px}
+h1{font-size:32px;margin:8px 0}.hero p{color:#aebaca;line-height:1.7}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{background:#fff;border:1px solid #e3e8ef;border-radius:16px;padding:16px}.icon{font-size:27px}.card h3{margin:9px 0 4px}.card p{margin:0 0 14px;color:#738095;font-size:12px}
+button{font:600 14px Arial;cursor:pointer}.buy{background:#55e6b0;border:0;border-radius:10px;padding:10px 14px;color:#071018}
+.section{margin:28px 0}.section h2{font-size:23px}.checkout{background:#fff;border:1px solid #e2e7ee;border-radius:18px;padding:18px}
+label{display:block;font-size:13px;font-weight:bold;margin:12px 0}input,select{width:100%;padding:12px;margin-top:6px;border:1px solid #d5dde7;border-radius:10px;font-size:15px}
+#msg{display:none;margin-top:12px;background:#ecfdf5;color:#087a53;padding:12px;border-radius:10px;font-size:13px}
+@media(min-width:650px){.grid{grid-template-columns:repeat(4,1fr)}}
+</style></head>
+<body>
+<header><div class="brand">WINSTON <span>STORE</span></div><div class="langs">
+<button class="lang active" data-l="ar">العربية</button><button class="lang" data-l="fr">Français</button><button class="lang" data-l="en">English</button></div></header>
+<main>
+<section class="hero"><small id="ey">متجر الشحن الرقمي الموريتاني</small><h1 id="heroTitle">اشحن لعبتك أو تطبيقك بسهولة.</h1><p id="heroText">شحن الألعاب والتطبيقات والخدمات الرقمية من مكان واحد.</p></section>
+<section class="section"><h2 id="productsTitle">الألعاب والتطبيقات</h2><div class="grid" id="grid"></div></section>
+<section class="section checkout"><h2 id="orderTitle">إتمام الطلب</h2><p id="hint">اختر منتجًا ثم أدخل البيانات المطلوبة.</p>
+<label id="idLabel">معرّف اللاعب / الحساب<input id="pid" placeholder="123456789"></label>
+<label id="phoneLabel">رقم الهاتف<input id="phone" placeholder="22xxxxxx"></label>
+<label id="payLabel">طريقة الدفع<select id="pay"><option>Bankily</option><option>Sedad</option></select></label>
+<button class="buy" id="submit">تأكيد الطلب</button><div id="msg"></div></section>
+</main>
+<script>
+const products=[
+['🔥','Free Fire','جواهر','Diamonds','Diamonds'],
+['🎯','PUBG Mobile','UC','UC','UC'],
+['⚽','FC Mobile','FC Points','FC Points','FC Points'],
+['⚔️','Mobile Legends','Diamonds','Diamonds','Diamonds'],
+['♪','TikTok','Coins','Coins','Coins'],
+['▶','Google Play','بطاقات رقمية','Cartes digitales','Digital cards'],
+['','App Store','بطاقات رقمية','Cartes digitales','Digital cards'],
+['🎮','PlayStation','شحن وبطاقات','Recharge et cartes','Top up & cards']
+];
+let selected='';
+const t={
+ar:{ey:'متجر الشحن الرقمي الموريتاني',hero:'اشحن لعبتك أو تطبيقك بسهولة.',text:'شحن الألعاب والتطبيقات والخدمات الرقمية من مكان واحد.',products:'الألعاب والتطبيقات',order:'إتمام الطلب',hint:'اختر منتجًا ثم أدخل البيانات المطلوبة.',id:'معرّف اللاعب / الحساب',phone:'رقم الهاتف',pay:'طريقة الدفع',submit:'تأكيد الطلب',ok:'تم تجهيز الطلب مبدئيًا. ربط الدفع الحقيقي يحتاج بيانات التاجر الرسمية من Bankily/Sedad.',placeholder:'مثال: 123456789'},
+fr:{ey:'Boutique de recharge numérique mauritanienne',hero:'Rechargez vos jeux ou applications facilement.',text:'Jeux, applications et services numériques au même endroit.',products:'Jeux et applications',order:'Finaliser la commande',hint:'Choisissez un produit puis saisissez les informations requises.',id:'ID joueur / compte',phone:'Numéro de téléphone',pay:'Mode de paiement',submit:'Confirmer la commande',ok:'Commande préparée. Le paiement réel nécessite les identifiants marchand officiels Bankily/Sedad.',placeholder:'Exemple : 123456789'},
+en:{ey:'Mauritanian digital top-up store',hero:'Top up your game or app with ease.',text:'Games, apps and digital services in one place.',products:'Games & apps',order:'Complete order',hint:'Choose a product, then enter the required details.',id:'Player / account ID',phone:'Phone number',pay:'Payment method',submit:'Confirm order',ok:'Order prepared. Real payment requires official Bankily/Sedad merchant credentials.',placeholder:'Example: 123456789'}
+};
+function render(l){
+ const x=t[l]; document.documentElement.lang=l;document.documentElement.dir=l==='ar'?'rtl':'ltr';
+ ey.textContent=x.ey;heroTitle.textContent=x.hero;heroText.textContent=x.text;productsTitle.textContent=x.products;orderTitle.textContent=x.order;hint.textContent=x.hint;idLabel.childNodes[0].nodeValue=x.id;phoneLabel.childNodes[0].nodeValue=x.phone;payLabel.childNodes[0].nodeValue=x.pay;submit.textContent=x.submit;pid.placeholder=x.placeholder;
+ grid.innerHTML=products.map((p,i)=>`<div class="card"><div class="icon">${p[0]}</div><h3>${p[1]}</h3><p>${p[l==='ar'?2:l==='fr'?3:4]}</p><button class="buy" onclick="selectP(${i})">${l==='ar'?'اطلب الآن':l==='fr'?'Commander':'Order now'}</button></div>`).join('');
+ document.querySelectorAll('.lang').forEach(b=>b.classList.toggle('active',b.dataset.l===l));
+ localStorage.setItem('lang',l);
+}
+function selectP(i){selected=products[i][1];orderTitle.textContent=(localStorage.getItem('lang')==='ar'?'طلب شحن: ':localStorage.getItem('lang')==='fr'?'Recharge : ':'Top up: ')+selected;scrollTo({top:document.body.scrollHeight,behavior:'smooth'});}
+document.querySelectorAll('.lang').forEach(b=>b.onclick=()=>render(b.dataset.l));
+submit.onclick=()=>{if(!selected){msg.style.display='block';msg.textContent=t[localStorage.getItem('lang')||'ar'].hint;return}msg.style.display='block';msg.textContent=t[localStorage.getItem('lang')||'ar'].ok};
+render(localStorage.getItem('lang')||'ar');
+</script></body></html>
